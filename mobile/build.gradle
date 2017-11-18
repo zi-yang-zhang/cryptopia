@@ -40,9 +40,10 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$architecture_lifecycle"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
 
-
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    compile "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
 
     implementation "io.reactivex.rxjava2:rxjava:$rxjava"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"
@@ -52,8 +53,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
     implementation "com.facebook.fresco:fresco:$fresco"
     implementation "com.jakewharton.timber:timber:$timber"
-
-
 
 
     testImplementation "junit:junit:$junit"
