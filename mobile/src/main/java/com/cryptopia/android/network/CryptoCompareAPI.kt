@@ -1,5 +1,6 @@
 package com.cryptopia.android.network
 
+import com.cryptopia.android.model.remote.CryptoCompareCoinListResponse
 import com.cryptopia.android.model.remote.CryptoComparePriceResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -12,7 +13,8 @@ import retrofit2.http.Query
 
 interface CryptoCompareAPI {
     @GET("data/pricemultifull")
-    fun getPriceFull(@Query("fsyms") from: String, @Query("tsyms") to: List<String>): Observable<CryptoComparePriceResponse>
+    fun getPriceFull(@Query("fsyms") from: String, @Query("tsyms") to: String): Observable<CryptoComparePriceResponse>
 
-
+    @GET("data/all/coinlist")
+    fun getFullCoinList(): Observable<CryptoCompareCoinListResponse>
 }

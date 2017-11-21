@@ -6,10 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-kapt {
-    generateStubs = true
-}
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -19,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField 'String', 'CRYPTO_COMPARE_API', '\"https://min-api.cryptocompare.com/data/\"'
+        buildConfigField 'String', 'CRYPTO_COMPARE_API', '\"https://min-api.cryptocompare.com/\"'
 
     }
     buildTypes {
@@ -56,8 +52,9 @@ dependencies {
     implementation "com.facebook.fresco:fresco:$fresco"
     implementation "com.jakewharton.timber:timber:$timber"
 
-
+    testImplementation "org.mockito:mockito-core:$mockito"
     testImplementation "junit:junit:$junit"
+    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 //    wearApp project(':wear')

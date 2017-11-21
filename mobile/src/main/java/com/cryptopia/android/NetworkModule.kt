@@ -17,8 +17,8 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-    @Provides
     @Singleton
+    @Provides
     fun retrofit(client: OkHttpClient): Retrofit = Retrofit
             .Builder()
             .baseUrl(BuildConfig.CRYPTO_COMPARE_API)
@@ -27,8 +27,8 @@ class NetworkModule {
             .client(client)
             .build()
 
-    @Provides
     @Singleton
+    @Provides
     fun httpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor({ log -> Timber.d(log) })
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -40,7 +40,8 @@ class NetworkModule {
     }
 
     @Provides
-    fun crytoCompareApi(retrofit: Retrofit): CryptoCompareAPI = retrofit.create(CryptoCompareAPI::class.java)
+    @Singleton
+    fun cryptoCompareApi(retrofit: Retrofit): CryptoCompareAPI = retrofit.create(CryptoCompareAPI::class.java)
 
 
 }
