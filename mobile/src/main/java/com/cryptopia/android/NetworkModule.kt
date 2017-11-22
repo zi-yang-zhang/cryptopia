@@ -8,7 +8,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import javax.inject.Singleton
 
 /**
@@ -30,7 +29,7 @@ class NetworkModule {
     @Singleton
     @Provides
     fun httpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor({ log -> Timber.d(log) })
+        val loggingInterceptor = HttpLoggingInterceptor({ log -> System.out.print(log) })
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient
                 .Builder()

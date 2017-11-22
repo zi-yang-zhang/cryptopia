@@ -8,6 +8,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import io.reactivex.observers.TestObserver
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +26,7 @@ class PriceRepositoryTest {
     @Module()
     class TestModule {
         @Provides
-        fun providePriceRepository(api: CryptoCompareAPI): PriceRepository = PriceRepository(api)
+        fun providePriceRepository(api: CryptoCompareAPI): PriceRepository = PriceRepositoryImpl(api)
 
         @Provides
         fun provideCoinRepository(api: CryptoCompareAPI): CoinRepository = CoinRepository(api)
@@ -49,24 +50,24 @@ class PriceRepositoryTest {
     @Test
     fun testPriceRepository() {
         val testSubscriber = TestObserver<List<PricePairs>>()
-        priceRepository.getPricePairs(listOf("BTC", "ETH"), listOf("USD", "CAD")).subscribe(testSubscriber)
+        priceRepository.getPricePairs(listOf("BTC", "ETH"), listOf("USD", "CAD"), null).subscribe(testSubscriber)
         testSubscriber.await(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(1)
         val result = testSubscriber.values()[0]
-        assert(result.find { pricePairs -> pricePairs.from == "BTC" } != null)
-        assert(result.find { pricePairs -> pricePairs.from == "ETH" } != null)
+        assertTrue(result.find { it.from == "BTC" } != null)
+        assertTrue(result.find { it.from == "ETH" } != null)
 
-        assert(result.size == 2)
+        assertTrue(result.size == 2)
 
-        assert(result[0].pairs.size == 2)
-        assert(result[1].pairs.size == 2)
+        assertTrue(result[0].pairs.size == 2)
+        assertTrue(result[1].pairs.size == 2)
 
-        assert(result[0].pairs.find { pricePairs -> pricePairs.to == "USD" } != null)
-        assert(result[0].pairs.find { pricePairs -> pricePairs.to == "CAD" } != null)
+        assertTrue(result[0].pairs.find { it.to == "USD" } != null)
+        assertTrue(result[0].pairs.find { it.to == "CAD" } != null)
 
-        assert(result[1].pairs.find { pricePairs -> pricePairs.to == "USD" } != null)
-        assert(result[1].pairs.find { pricePairs -> pricePairs.to == "CAD" } != null)
+        assertTrue(result[1].pairs.find { it.to == "USD" } != null)
+        assertTrue(result[1].pairs.find { it.to == "CAD" } != null)
     }
 
 
@@ -78,13 +79,13 @@ class PriceRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(1)
         var result = testSubscriber.values()[0]
-        assert(result.isNotEmpty())
+        assertTrue(result.isNotEmpty())
         testSubscriber = TestObserver()
         coinRepository.getDefaultCoinList().subscribe(testSubscriber)
         testSubscriber.await(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(1)
         result = testSubscriber.values()[0]
-        assert(result.isNotEmpty())
+        assertTrue(result.isNotEmpty())
     }
 }
