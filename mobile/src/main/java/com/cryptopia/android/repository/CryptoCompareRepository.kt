@@ -10,25 +10,6 @@ import retrofit2.http.Query
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by robertzzy on 18/11/17.
- */
-
-interface PriceRepository {
-    fun getAllCachedPricePairs(): LiveData<List<PricePair>>
-
-    fun getPricePairs(from: List<String>, to: List<String>, market: String?): LiveData<List<PricePair>>
-    fun getPricePairs(from: List<String>): LiveData<List<PricePair>>
-
-    fun getTopPairs(from: String, to: String): Flowable<List<CryptoCompareTopCoinPair>>
-    fun getHistoricalPrice(@Query("fsyms") from: String,
-                           @Query("tsyms") to: String,
-                           @Query("ts") timeStamp: Long?,
-                           @Query("markets") markets: String?): Flowable<CryptoComparePriceHistoricalResponse>
-
-    fun updateCache(from: List<String>, to: List<String>, market: String?): Flowable<List<PricePair>>
-}
-
 class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI, private val dao: PricePairDAO) : PriceRepository {
     override fun updateCache(from: List<String>, to: List<String>, market: String?): Flowable<List<PricePair>> =
             cryptoCompareAPI.getPriceFull(from.joinToString(separator = ","), to.joinToString(separator = ","), market)
@@ -82,11 +63,11 @@ class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: Cryp
 }
 
 
-class CoinRepository @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI) {
-    fun getAllCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
+class CoinRepositoryImpl @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI) : CoinRepository {
+    override fun getAllCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
             cryptoCompareAPI.getFullCoinList().map { it.data.values.toList() }
 
-    fun getDefaultCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
+    override fun getDefaultCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
             cryptoCompareAPI.getFullCoinList().map { response ->
                 val defaults = response.defaultList.coinIds.split(",")
                 response.data.filter { defaults.contains(it.value.id) }.values.toList()

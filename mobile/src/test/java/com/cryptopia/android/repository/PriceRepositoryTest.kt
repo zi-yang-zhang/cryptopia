@@ -31,7 +31,7 @@ class PriceRepositoryTest {
         fun providePriceRepository(api: CryptoCompareAPI): PriceRepository = PriceRepositoryImpl(api, Mockito.mock(PricePairDAO::class.java))
 
         @Provides
-        fun provideCoinRepository(api: CryptoCompareAPI): CoinRepository = CoinRepository(api)
+        fun provideCoinRepository(api: CryptoCompareAPI): CoinRepository = CoinRepositoryImpl(api)
     }
 
     @Singleton()
@@ -42,7 +42,7 @@ class PriceRepositoryTest {
 
     @Inject lateinit var priceRepository: PriceRepository
 
-    @Inject lateinit var coinRepository: CoinRepository
+    @Inject lateinit var coinRepository: CoinRepositoryImpl
 
     @Before
     fun setup() {
