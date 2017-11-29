@@ -36,6 +36,9 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:$architecture_lifecycle"
     implementation "android.arch.lifecycle:extensions:$architecture_lifecycle"
     implementation "android.arch.lifecycle:reactivestreams:$architecture_lifecycle"
+    implementation "android.arch.persistence.room:runtime:$architecture_lifecycle"
+    implementation "android.arch.persistence.room:rxjava2:$architecture_lifecycle"
+    annotationProcessor "android.arch.persistence.room:compiler:$architecture_lifecycle"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
 
     kapt "com.google.dagger:dagger-compiler:$dagger_version"

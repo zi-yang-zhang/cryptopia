@@ -1,17 +1,19 @@
 package com.cryptopia.android.repository
 
 import com.cryptopia.android.NetworkModule
-import com.cryptopia.android.model.local.PricePairs
+import com.cryptopia.android.model.local.PricePair
+import com.cryptopia.android.model.local.PricePairDAO
 import com.cryptopia.android.model.remote.CryptoCompareCoinDetail
 import com.cryptopia.android.network.CryptoCompareAPI
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import io.reactivex.observers.TestObserver
+import io.reactivex.subscribers.TestSubscriber
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -26,7 +28,7 @@ class PriceRepositoryTest {
     @Module()
     class TestModule {
         @Provides
-        fun providePriceRepository(api: CryptoCompareAPI): PriceRepository = PriceRepositoryImpl(api)
+        fun providePriceRepository(api: CryptoCompareAPI): PriceRepository = PriceRepositoryImpl(api, Mockito.mock(PricePairDAO::class.java))
 
         @Provides
         fun provideCoinRepository(api: CryptoCompareAPI): CoinRepository = CoinRepository(api)
@@ -49,8 +51,8 @@ class PriceRepositoryTest {
 
     @Test
     fun testPriceRepository() {
-        val testSubscriber = TestObserver<List<PricePairs>>()
-        priceRepository.getPricePairs(listOf("BTC", "ETH"), listOf("USD", "CAD"), null).subscribe(testSubscriber)
+        val testSubscriber = TestSubscriber<List<PricePair>>()
+        priceRepository.updateCache(listOf("BTC", "ETH"), listOf("USD", "CAD"), null).subscribe(testSubscriber)
         testSubscriber.await(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(1)
@@ -58,29 +60,26 @@ class PriceRepositoryTest {
         assertTrue(result.find { it.from == "BTC" } != null)
         assertTrue(result.find { it.from == "ETH" } != null)
 
-        assertTrue(result.size == 2)
+        assertTrue(result.size == 4)
 
-        assertTrue(result[0].pairs.size == 2)
-        assertTrue(result[1].pairs.size == 2)
+        assertTrue(result.find { it.to == "USD" } != null)
+        assertTrue(result.find { it.to == "CAD" } != null)
 
-        assertTrue(result[0].pairs.find { it.to == "USD" } != null)
-        assertTrue(result[0].pairs.find { it.to == "CAD" } != null)
-
-        assertTrue(result[1].pairs.find { it.to == "USD" } != null)
-        assertTrue(result[1].pairs.find { it.to == "CAD" } != null)
+        assertTrue(result.find { it.to == "USD" } != null)
+        assertTrue(result.find { it.to == "CAD" } != null)
     }
 
 
     @Test
     fun testGetCoinList() {
-        var testSubscriber = TestObserver<List<CryptoCompareCoinDetail>>()
+        var testSubscriber = TestSubscriber<List<CryptoCompareCoinDetail>>()
         coinRepository.getAllCoinList().subscribe(testSubscriber)
         testSubscriber.await(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(1)
         var result = testSubscriber.values()[0]
         assertTrue(result.isNotEmpty())
-        testSubscriber = TestObserver()
+        testSubscriber = TestSubscriber()
         coinRepository.getDefaultCoinList().subscribe(testSubscriber)
         testSubscriber.await(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()

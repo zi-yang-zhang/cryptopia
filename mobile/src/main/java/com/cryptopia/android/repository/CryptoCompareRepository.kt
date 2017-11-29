@@ -1,11 +1,13 @@
 package com.cryptopia.android.repository
 
+import android.arch.lifecycle.LiveData
 import com.cryptopia.android.model.local.PricePair
-import com.cryptopia.android.model.local.PricePairs
+import com.cryptopia.android.model.local.PricePairDAO
 import com.cryptopia.android.model.remote.*
 import com.cryptopia.android.network.CryptoCompareAPI
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import retrofit2.http.Query
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -13,32 +15,47 @@ import javax.inject.Inject
  */
 
 interface PriceRepository {
-    fun getPricePairs(from: List<String>, to: List<String>, market: String?): Observable<List<PricePairs>>
-    fun getTopPairs(from: String, to: String): Observable<List<CryptoCompareTopCoinPair>>
+    fun getAllCachedPricePairs(): LiveData<List<PricePair>>
+
+    fun getPricePairs(from: List<String>, to: List<String>, market: String?): LiveData<List<PricePair>>
+    fun getPricePairs(from: List<String>): LiveData<List<PricePair>>
+
+    fun getTopPairs(from: String, to: String): Flowable<List<CryptoCompareTopCoinPair>>
     fun getHistoricalPrice(@Query("fsyms") from: String,
                            @Query("tsyms") to: String,
                            @Query("ts") timeStamp: Long?,
-                           @Query("markets") markets: String?): Observable<CryptoComparePriceHistoricalResponse>
+                           @Query("markets") markets: String?): Flowable<CryptoComparePriceHistoricalResponse>
+
+    fun updateCache(from: List<String>, to: List<String>, market: String?): Flowable<List<PricePair>>
 }
 
-class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI) : PriceRepository {
-
-    override fun getPricePairs(from: List<String>, to: List<String>, market: String?): Observable<List<PricePairs>> =
+class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI, private val dao: PricePairDAO) : PriceRepository {
+    override fun updateCache(from: List<String>, to: List<String>, market: String?): Flowable<List<PricePair>> =
             cryptoCompareAPI.getPriceFull(from.joinToString(separator = ","), to.joinToString(separator = ","), market)
                     .map(this::convertToPricePairs)
 
-    override fun getTopPairs(from: String, to: String): Observable<List<CryptoCompareTopCoinPair>> =
+    override fun getPricePairs(from: List<String>): LiveData<List<PricePair>> = dao.getPricePairs(from)
+
+    override fun getAllCachedPricePairs(): LiveData<List<PricePair>> = dao.getAllPricePairs()
+
+
+    override fun getPricePairs(from: List<String>, to: List<String>, market: String?): LiveData<List<PricePair>> {
+        updateCache(from, to, market).subscribe { dao.cachePricePairs(it) }
+        return if (market == null) dao.getPricePairs(from, to) else dao.getPricePairs(from, to, market)
+    }
+
+
+    override fun getTopPairs(from: String, to: String): Flowable<List<CryptoCompareTopCoinPair>> =
             cryptoCompareAPI.getTopPairs(from, to, null).map { it.data }
 
     override fun getHistoricalPrice(@Query("fsyms") from: String,
                                     @Query("tsyms") to: String,
                                     @Query("ts") timeStamp: Long?,
-                                    @Query("markets") markets: String?): Observable<CryptoComparePriceHistoricalResponse> =
+                                    @Query("markets") markets: String?): Flowable<CryptoComparePriceHistoricalResponse> =
             cryptoCompareAPI.getHistoricalPrice(from, to, timeStamp, markets)
 
-    private fun convertToPricePairs(from: String,
-                                    rawData: Map<String, CryptoComparePriceResponseRawPriceDetail>,
-                                    displayData: Map<String, CryptoComparePriceResponseDisplayPriceDetail>): PricePairs {
+    private fun convertToPricePairs(rawData: Map<String, CryptoComparePriceResponseRawPriceDetail>,
+                                    displayData: Map<String, CryptoComparePriceResponseDisplayPriceDetail>): List<PricePair> {
 
         val pairs = ArrayList<PricePair>()
         var fromSymbol = ""
@@ -47,25 +64,29 @@ class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: Cryp
             val display: CryptoComparePriceResponseDisplayPriceDetail? = displayData[it.key]
             if (fromSymbol.isEmpty()) fromSymbol = display?.from ?: ""
             pairs.add(
-                    PricePair(it.value.to,
+                    PricePair(it.value.from,
+                            it.value.to,
                             it.value.price,
                             display?.price ?: "",
                             display?.to ?: "",
-                            it.value.market))
+                            display?.from ?: "",
+                            it.value.market,
+                            Date()))
         }
-        return PricePairs(from, fromSymbol, pairs)
+        return pairs
     }
 
-    private fun convertToPricePairs(response: CryptoComparePriceResponse): List<PricePairs>
-            = response.rawData.map { convertToPricePairs(it.key, response.rawData[it.key] ?: mapOf(), response.displayData[it.key] ?: mapOf()) }
+    private fun convertToPricePairs(response: CryptoComparePriceResponse): List<PricePair>
+            = response.rawData.flatMap { convertToPricePairs(response.rawData[it.key] ?: mapOf(), response.displayData[it.key] ?: mapOf()) }
 
 }
 
 
 class CoinRepository @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI) {
-    fun getAllCoinList(): Observable<List<CryptoCompareCoinDetail>> =
+    fun getAllCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
             cryptoCompareAPI.getFullCoinList().map { it.data.values.toList() }
-    fun getDefaultCoinList(): Observable<List<CryptoCompareCoinDetail>> =
+
+    fun getDefaultCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
             cryptoCompareAPI.getFullCoinList().map { response ->
                 val defaults = response.defaultList.coinIds.split(",")
                 response.data.filter { defaults.contains(it.value.id) }.values.toList()
