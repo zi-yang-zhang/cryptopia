@@ -14,9 +14,6 @@ const val TIME_STAMP_FORMAT: String = "yyyy-MM-dd HH:mm:ss"
 
 
 class RoomConverters {
-    companion object {
-        val SQL_DATE_FORMAT: DateFormat = SimpleDateFormat(TIME_STAMP_FORMAT, Locale.ENGLISH)
-    }
 
     @TypeConverter
     fun stringToPricePair(text: String?): List<PricePair>? = Gson().fromJson(text ?: "")
@@ -28,12 +25,15 @@ class RoomConverters {
 }
 
 class TimeConverters {
+    companion object {
+        @JvmField
+        val SQL_DATE_FORMAT: DateFormat = SimpleDateFormat(TIME_STAMP_FORMAT, Locale.ENGLISH)
+    }
+    @TypeConverter
+    fun stringToDate(date: String?): Date? = SQL_DATE_FORMAT.parse(date)
 
     @TypeConverter
-    fun stringToDate(date: String?): Date? = RoomConverters.SQL_DATE_FORMAT.parse(date)
-
-    @TypeConverter
-    fun dateToString(date: Date?): String? = RoomConverters.SQL_DATE_FORMAT.format(date)
+    fun dateToString(date: Date?): String? = SQL_DATE_FORMAT.format(date)
 }
 
 

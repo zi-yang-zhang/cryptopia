@@ -7,16 +7,16 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.cryptopia.android"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'CRYPTO_COMPARE_API', '\"https://min-api.cryptocompare.com/\"'
-
+        buildConfigField 'String', 'CACHE_DATABASE_NAME', '\"price-cache\"'
     }
     buildTypes {
         release {
