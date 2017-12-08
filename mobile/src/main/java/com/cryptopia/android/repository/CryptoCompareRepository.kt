@@ -1,8 +1,10 @@
 package com.cryptopia.android.repository
 
 import android.arch.lifecycle.LiveData
+import com.cryptopia.android.model.local.CoinPairDao
 import com.cryptopia.android.model.local.PricePair
 import com.cryptopia.android.model.local.PricePairDAO
+import com.cryptopia.android.model.local.TopCoinPair
 import com.cryptopia.android.model.remote.*
 import com.cryptopia.android.network.CryptoCompareAPI
 import io.reactivex.Flowable
@@ -26,8 +28,7 @@ class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: Cryp
     }
 
 
-    override fun getTopPairs(from: String, to: String): Flowable<List<CryptoCompareTopCoinPair>> =
-            cryptoCompareAPI.getTopPairs(from, to, null).map { it.data }
+
 
     override fun getHistoricalPrice(@Query("fsyms") from: String,
                                     @Query("tsyms") to: String,
@@ -63,7 +64,7 @@ class PriceRepositoryImpl @Inject constructor(private val cryptoCompareAPI: Cryp
 }
 
 
-class CoinRepositoryImpl @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI) : CoinRepository {
+class CoinRepositoryImpl @Inject constructor(private val cryptoCompareAPI: CryptoCompareAPI, private val dao: CoinPairDao) : CoinRepository {
     override fun getAllCoinList(): Flowable<List<CryptoCompareCoinDetail>> =
             cryptoCompareAPI.getFullCoinList().map { it.data.values.toList() }
 
@@ -72,4 +73,12 @@ class CoinRepositoryImpl @Inject constructor(private val cryptoCompareAPI: Crypt
                 val defaults = response.defaultList.coinIds.split(",")
                 response.data.filter { defaults.contains(it.value.id) }.values.toList()
             }
+
+    override fun getTopPairs(from: String, to: String?, limit: Int?): LiveData<List<TopCoinPair>> {
+        cryptoCompareAPI.getTopPairs(from, to, limit).map { it.data }.subscribe { topCoinPairs ->
+            dao.clearTopCoinPairs().subscribe { dao.addTopCoinPairs(topCoinPairs) }
+        }
+        return dao.getTopCoinPairs()
+    }
+
 }

@@ -10,13 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".pricelist.PriceListActivity">
+        <activity android:name=".ui.pricelist.PriceListActivity">
+        </activity>
+
+        <activity android:name=".ui.suggestion.SuggestionActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

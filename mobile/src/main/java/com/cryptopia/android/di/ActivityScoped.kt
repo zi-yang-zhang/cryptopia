@@ -1,4 +1,4 @@
-package com.cryptopia.android
+package com.cryptopia.android.di
 
 import java.lang.annotation.Documented
 import javax.inject.Scope

@@ -16,7 +16,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'CRYPTO_COMPARE_API', '\"https://min-api.cryptocompare.com/\"'
-        buildConfigField 'String', 'CACHE_DATABASE_NAME', '\"price-cache\"'
+        buildConfigField 'String', 'CACHE_DATABASE_NAME', '\"crypto-cache\"'
+        buildConfigField 'Integer', 'CACHE_DATABASE_VER', '1'
     }
     buildTypes {
         release {

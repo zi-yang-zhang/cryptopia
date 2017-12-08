@@ -21,7 +21,7 @@ interface CryptoCompareAPI {
     fun getFullCoinList(): Flowable<CryptoCompareCoinListResponse>
 
     @GET("data/top/pairs")
-    fun getTopPairs(@Query("fsyms") from: String, @Query("tsyms") to: String, @Query("limit") limit: Int?): Flowable<CryptoCompareTopCoinPairsResponse>
+    fun getTopPairs(@Query("fsyms") from: String, @Query("tsyms") to: String?, @Query("limit") limit: Int?): Flowable<CryptoCompareTopCoinPairsResponse>
 
     @GET("data/pricehistorical")
     fun getHistoricalPrice(@Query("fsyms") from: String, @Query("tsyms") to: String, @Query("ts") timeStamp: Long?, @Query("markets") markets: String?): Flowable<CryptoComparePriceHistoricalResponse>

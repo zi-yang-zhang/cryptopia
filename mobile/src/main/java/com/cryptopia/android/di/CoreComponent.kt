@@ -1,6 +1,7 @@
-package com.cryptopia.android
+package com.cryptopia.android.di
 
 import android.app.Application
+import com.cryptopia.android.CryptopiaApplication
 import com.cryptopia.android.model.local.PriceCacheDatabase
 import com.cryptopia.android.network.CryptoCompareAPI
 import dagger.BindsInstance
@@ -23,7 +24,7 @@ interface CoreComponent : AndroidInjector<CryptopiaApplication> {
     interface Builder {
 
         @BindsInstance
-        fun application(application: Application): CoreComponent.Builder
+        fun application(application: Application): Builder
 
         fun build(): CoreComponent
     }

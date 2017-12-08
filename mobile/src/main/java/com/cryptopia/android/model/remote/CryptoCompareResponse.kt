@@ -1,5 +1,6 @@
 package com.cryptopia.android.model.remote
 
+import com.cryptopia.android.model.local.TopCoinPair
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -74,22 +75,7 @@ data class CryptoCompareTopCoinPairsResponse(@SerializedName("Response")
                                              val response: String = "",
                                              @SerializedName("Data")
                                              @Expose
-                                             val data: List<CryptoCompareTopCoinPair> = listOf())
+                                             val data: List<TopCoinPair> = listOf())
 
-data class CryptoCompareTopCoinPair(@SerializedName("exchange")
-                                    @Expose
-                                    val exchange: String = "",
-                                    @SerializedName("fromSymbol")
-                                    @Expose
-                                    val fromSymbol: String = "",
-                                    @SerializedName("toSymbol")
-                                    @Expose
-                                    val toSymbol: String = "",
-                                    @SerializedName("volume24h")
-                                    @Expose
-                                    val volume24h: Double = 0.0,
-                                    @SerializedName("volume24hTo")
-                                    @Expose
-                                    val volume24hTo: Double = 0.0)
 
 data class CryptoComparePriceHistoricalResponse(val historicalPairs: Map<String, Map<String, Double>> = mapOf())

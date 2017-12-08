@@ -1,5 +1,6 @@
-package com.cryptopia.android
+package com.cryptopia.android.di
 
+import com.cryptopia.android.BuildConfig
 import com.cryptopia.android.network.CryptoCompareAPI
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.cryptopia.android.pricelist
+package com.cryptopia.android.ui.pricelist
 
 import dagger.android.support.DaggerAppCompatActivity
 

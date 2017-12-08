@@ -1,6 +1,7 @@
 package com.cryptopia.android.repository
 
-import com.cryptopia.android.NetworkModule
+import com.cryptopia.android.di.NetworkModule
+import com.cryptopia.android.model.local.CoinPairDao
 import com.cryptopia.android.model.local.PricePair
 import com.cryptopia.android.model.local.PricePairDAO
 import com.cryptopia.android.model.remote.CryptoCompareCoinDetail
@@ -31,7 +32,7 @@ class PriceRepositoryTest {
         fun providePriceRepository(api: CryptoCompareAPI): PriceRepository = PriceRepositoryImpl(api, Mockito.mock(PricePairDAO::class.java))
 
         @Provides
-        fun provideCoinRepository(api: CryptoCompareAPI): CoinRepository = CoinRepositoryImpl(api)
+        fun provideCoinRepository(api: CryptoCompareAPI): CoinRepository = CoinRepositoryImpl(api, Mockito.mock(CoinPairDao::class.java))
     }
 
     @Singleton()

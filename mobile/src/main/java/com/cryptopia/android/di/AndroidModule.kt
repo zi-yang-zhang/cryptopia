@@ -1,4 +1,4 @@
-package com.cryptopia.android
+package com.cryptopia.android.di
 
 import android.app.Application
 import android.content.Context
