@@ -3,6 +3,8 @@ package com.cryptopia.android.model.local
 import android.arch.persistence.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,10 +32,10 @@ class TimeConverters {
         val SQL_DATE_FORMAT: DateFormat = SimpleDateFormat(TIME_STAMP_FORMAT, Locale.ENGLISH)
     }
     @TypeConverter
-    fun stringToDate(date: String?): Date? = SQL_DATE_FORMAT.parse(date)
+    fun stringToDate(date: Long?): LocalDateTime = LocalDateTime(date?.times(1000) ?: System.currentTimeMillis(), DateTimeZone.UTC)
 
     @TypeConverter
-    fun dateToString(date: Date?): String? = SQL_DATE_FORMAT.format(date)
+    fun dateToString(date: LocalDateTime?): Long? = date?.millisOfSecond?.toLong()
 }
 
 

@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.60'
+    ext.kotlin_version = '1.2.0'
     repositories {
         google()
         jcenter()
@@ -28,7 +28,7 @@ task clean(type: Delete) {
 
 
 ext{
-    kotlin_version = '1.1.60'
+    kotlin_version = '1.2.0'
     support_lib = '26.1.0'
     junit = '4.12'
     wearable = '2.1.0'
@@ -43,4 +43,5 @@ ext{
     rxandroid = '2.0.1'
     timber = '4.6.0'
     mockito = '2.8.47'
+    koda_time = '1.2.1'
 }

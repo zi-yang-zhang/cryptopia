@@ -4,24 +4,25 @@ import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import io.reactivex.Flowable
 
 /**
  * Created by robertzzy on 07/12/17.
  */
 
+const val COIN_PAIR_TABLE: String = "coin_pair"
 
-@Entity(tableName = "top_coin_pairs", primaryKeys = arrayOf("fromSymbol", "toSymbol"))
+
+@Entity(tableName = COIN_PAIR_TABLE)
 data class TopCoinPair(@PrimaryKey(autoGenerate = true) val id: Int,
                        @SerializedName("exchange")
                        @Expose
                        val exchange: String = "",
                        @SerializedName("fromSymbol")
                        @Expose
-                       val fromSymbol: String = "",
+                       val fromCoin: String = "",
                        @SerializedName("toSymbol")
                        @Expose
-                       val toSymbol: String = "",
+                       val toCoin: String = "",
                        @SerializedName("volume24h")
                        @Expose
                        val volume24h: Double = 0.0,
@@ -29,17 +30,13 @@ data class TopCoinPair(@PrimaryKey(autoGenerate = true) val id: Int,
                        @Expose
                        val volume24hTo: Double = 0.0)
 
-@Database(entities = arrayOf(TopCoinPair::class), version = 1) abstract class CoinPairCacheDatabase : RoomDatabase() {
-    abstract fun coinPairDao(): CoinPairDao
-
-}
-
+@Dao
 interface CoinPairDao {
-    @Query("SELECT * FROM top_coin_pairs")
+    @Query("SELECT * FROM $COIN_PAIR_TABLE")
     fun getTopCoinPairs(): LiveData<List<TopCoinPair>>
 
-    @Query("DELETE * FROM top_coin_pairs")
-    fun clearTopCoinPairs(): Flowable<Int>
+    @Query("DELETE FROM $COIN_PAIR_TABLE")
+    fun clearTopCoinPairs()
 
     @Insert
     fun addTopCoinPairs(topCoinPairs: List<TopCoinPair>)

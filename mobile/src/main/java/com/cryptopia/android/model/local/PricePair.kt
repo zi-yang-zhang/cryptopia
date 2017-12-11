@@ -2,35 +2,48 @@ package com.cryptopia.android.model.local
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
-import java.util.*
 
 
 /**
  * Created by robertzzy on 18/11/17.
  */
 
-data class PricePairs(val from: String, val fromSymbol: String, val pairs: List<PricePair>)
+const val PRICE_PAIR_TABLE: String = "price_pairs"
 
-@Entity(tableName = "price_pairs_cache", primaryKeys = arrayOf("from", "to"))
-data class PricePair(val from: String, val to: String, val price: Double, val displayPrice: String, val toSymbol: String, val fromSymbol: String, val market: String, @TypeConverters(TimeConverters::class) val updatedAt: Date)
+@Entity(tableName = PRICE_PAIR_TABLE, primaryKeys = ["fromCoin", "toCoin"])
+data class PricePair(val fromCoin: String,
+                     val toCoin: String,
+                     val price: Double,
+                     val displayPrice: String,
+                     val fromCoinDisplay: String,
+                     val toCoinDisplay: String,
+                     val indexMarket: String,
+                     @TypeConverters(TimeConverters::class) val updatedAt: Long,
+                     val exchange: String,
+                     val exchangeSymbol: String,
+                     val changePercentageOfDay: Double,
+                     val changeOfDay: Double)
 
-
-@Database(entities = arrayOf(PricePair::class), version = 1) abstract class PriceCacheDatabase : RoomDatabase() {
-    abstract fun pricePairDAO(): PricePairDAO
-}
-
+@Dao
 interface PricePairDAO {
-    @Query("SELECT * FROM price_pairs_cache")
+    @Query("SELECT * FROM " + PRICE_PAIR_TABLE)
     fun getAllPricePairs(): LiveData<List<PricePair>>
 
-    @Query("SELECT * FROM price_pairs_cache WHERE from IN (:from) AND to IN (:to)")
-    fun getPricePairs(from: List<String>, to: List<String>): LiveData<List<PricePair>>
+    @Query("SELECT * FROM $PRICE_PAIR_TABLE WHERE fromCoin IN (:fromCoin) AND toCoin IN (:toCoin)")
+    fun getPricePairs(fromCoin: List<String>, toCoin: List<String>): LiveData<List<PricePair>>
 
-    @Query("SELECT * FROM price_pairs_cache WHERE from IN (:from) AND to IN (:to) AND market LIKE :market")
-    fun getPricePairs(from: List<String>, to: List<String>, market: String): LiveData<List<PricePair>>
+    @Query("SELECT * FROM $PRICE_PAIR_TABLE WHERE fromCoin IN (:fromCoin) AND toCoin IN (:toCoin) AND indexMarket LIKE :indexMarket")
+    fun getPricePairs(fromCoin: List<String>, toCoin: List<String>, indexMarket: String): LiveData<List<PricePair>>
 
-    @Query("SELECT * FROM price_pairs_cache WHERE from IN (:from)")
-    fun getPricePairs(from: List<String>): LiveData<List<PricePair>>
+    @Query("SELECT * FROM $PRICE_PAIR_TABLE WHERE fromCoin IN (:fromCoin)")
+    fun getPricePairs(fromCoin: List<String>): LiveData<List<PricePair>>
+
+    @Query("SELECT * FROM $PRICE_PAIR_TABLE " +
+            "INNER JOIN $COIN_PAIR_TABLE ON $COIN_PAIR_TABLE.fromCoin = $PRICE_PAIR_TABLE.fromCoin " +
+            "INNER JOIN $COIN_PAIR_TABLE ON $COIN_PAIR_TABLE.toCoin = $PRICE_PAIR_TABLE.toCoin")
+//  TODO: fix query
+    fun getTopPricePairs(): LiveData<List<PricePair>>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun cachePricePair(pricePair: PricePair)

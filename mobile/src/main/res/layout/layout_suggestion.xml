@@ -21,6 +21,7 @@
 			tools:title="Popular Coin pairs"/>
 
 		<fragment
+			android:id="@+id/coin_list_fragment"
 			android:name="com.cryptopia.android.ui.suggestion.CoinSuggestionFragment"
 			android:layout_width="0dp"
 			android:layout_height="0dp"

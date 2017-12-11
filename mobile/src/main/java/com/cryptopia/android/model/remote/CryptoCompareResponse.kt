@@ -27,7 +27,19 @@ data class CryptoComparePriceResponseRawPriceDetail(@SerializedName("MARKET")
                                                     val to: String = "",
                                                     @SerializedName("PRICE")
                                                     @Expose
-                                                    val price: Double = 0.0)
+                                                    val price: Double = 0.0,
+                                                    @SerializedName("LASTMARKET")
+                                                    @Expose
+                                                    val exchange: String = "",
+                                                    @SerializedName("CHANGEDAY")
+                                                    @Expose
+                                                    val changeOfDay: Double = 0.0,
+                                                    @SerializedName("CHANGEPCTDAY")
+                                                    @Expose
+                                                    val changePercentageOfDay: Double = 0.0,
+                                                    @SerializedName("LASTUPDATE")
+                                                    @Expose
+                                                    val lastUpdated: Long = 0)
 
 data class CryptoComparePriceResponseDisplayPriceDetail(@SerializedName("MARKET")
                                                         @Expose
@@ -40,7 +52,16 @@ data class CryptoComparePriceResponseDisplayPriceDetail(@SerializedName("MARKET"
                                                         val to: String = "",
                                                         @SerializedName("PRICE")
                                                         @Expose
-                                                        val price: String = "")
+                                                        val price: String = "",
+                                                        @SerializedName("LASTMARKET")
+                                                        @Expose
+                                                        val exchange: String = "",
+                                                        @SerializedName("CHANGEDAY")
+                                                        @Expose
+                                                        val changeOfDay: String = "",
+                                                        @SerializedName("CHANGEPCTDAY")
+                                                        @Expose
+                                                        val changePercentageOfDay: String = "")
 
 data class CryptoCompareCoinListResponse(@SerializedName("DefaultWatchlist")
                                          @Expose

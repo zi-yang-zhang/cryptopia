@@ -18,6 +18,13 @@ android {
         buildConfigField 'String', 'CRYPTO_COMPARE_API', '\"https://min-api.cryptocompare.com/\"'
         buildConfigField 'String', 'CACHE_DATABASE_NAME', '\"crypto-cache\"'
         buildConfigField 'Integer', 'CACHE_DATABASE_VER', '1'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -39,7 +46,7 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$architecture_lifecycle"
     implementation "android.arch.persistence.room:runtime:$architecture_lifecycle"
     implementation "android.arch.persistence.room:rxjava2:$architecture_lifecycle"
-    annotationProcessor "android.arch.persistence.room:compiler:$architecture_lifecycle"
+    kapt "android.arch.persistence.room:compiler:$architecture_lifecycle"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
 
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
@@ -55,6 +62,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
     implementation "com.facebook.fresco:fresco:$fresco"
     implementation "com.jakewharton.timber:timber:$timber"
+    implementation "com.github.debop:koda-time:$koda_time"
 
     testImplementation "org.mockito:mockito-core:$mockito"
     testImplementation "junit:junit:$junit"

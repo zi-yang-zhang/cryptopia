@@ -58,16 +58,16 @@ class PriceRepositoryTest {
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(1)
         val result = testSubscriber.values()[0]
-        assertTrue(result.find { it.from == "BTC" } != null)
-        assertTrue(result.find { it.from == "ETH" } != null)
+        assertTrue(result.find { it.fromCoin == "BTC" } != null)
+        assertTrue(result.find { it.fromCoin == "ETH" } != null)
 
         assertTrue(result.size == 4)
 
-        assertTrue(result.find { it.to == "USD" } != null)
-        assertTrue(result.find { it.to == "CAD" } != null)
+        assertTrue(result.find { it.toCoin == "USD" } != null)
+        assertTrue(result.find { it.toCoin == "CAD" } != null)
 
-        assertTrue(result.find { it.to == "USD" } != null)
-        assertTrue(result.find { it.to == "CAD" } != null)
+        assertTrue(result.find { it.toCoin == "USD" } != null)
+        assertTrue(result.find { it.toCoin == "CAD" } != null)
     }
 
 

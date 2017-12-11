@@ -2,7 +2,7 @@ package com.cryptopia.android.di
 
 import android.app.Application
 import com.cryptopia.android.CryptopiaApplication
-import com.cryptopia.android.model.local.PriceCacheDatabase
+import com.cryptopia.android.model.local.CacheDatabase
 import com.cryptopia.android.network.CryptoCompareAPI
 import dagger.BindsInstance
 import dagger.Component
@@ -16,9 +16,16 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = arrayOf(NetworkModule::class, DataBaseModule::class, AndroidModule::class, RepositoryModule::class, ActivityModule::class, AndroidSupportInjectionModule::class))
+@Component(modules = arrayOf(NetworkModule::class,
+        ConfigModule::class,
+        DataBaseModule::class,
+        AndroidModule::class,
+        RepositoryModule::class,
+        ActivityModule::class,
+        AndroidSupportInjectionModule::class,
+        ViewModelFactoryModule::class))
 interface CoreComponent : AndroidInjector<CryptopiaApplication> {
-    fun database(): PriceCacheDatabase
+    fun database(): CacheDatabase
     fun cryptoCompareApi(): CryptoCompareAPI
     @Component.Builder
     interface Builder {
