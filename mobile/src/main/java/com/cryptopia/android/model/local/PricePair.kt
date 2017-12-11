@@ -40,8 +40,7 @@ interface PricePairDAO {
 
     @Query("SELECT * FROM $PRICE_PAIR_TABLE " +
             "INNER JOIN $COIN_PAIR_TABLE ON $COIN_PAIR_TABLE.fromCoin = $PRICE_PAIR_TABLE.fromCoin " +
-            "INNER JOIN $COIN_PAIR_TABLE ON $COIN_PAIR_TABLE.toCoin = $PRICE_PAIR_TABLE.toCoin")
-//  TODO: fix query
+            "AND $COIN_PAIR_TABLE.toCoin = $PRICE_PAIR_TABLE.toCoin")
     fun getTopPricePairs(): LiveData<List<PricePair>>
 
 

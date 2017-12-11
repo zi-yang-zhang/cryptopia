@@ -1,12 +1,11 @@
 package com.cryptopia.android.di
 
-import java.lang.annotation.Documented
 import javax.inject.Scope
 
 /**
  * Created by robertzzy on 30/11/17.
  */
-@Documented
+@MustBeDocumented
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityScoped

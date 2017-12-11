@@ -23,6 +23,11 @@ class TopCoinPairAdapter : RecyclerView.Adapter<TopCoinPairView>() {
 
 
     override fun getItemCount(): Int = topCoinPairs.size
+
+    fun updateCoinPairs(coinPairs: MutableList<PricePair>) {
+        topCoinPairs = coinPairs
+        notifyDataSetChanged()
+    }
 }
 
 

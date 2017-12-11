@@ -44,7 +44,7 @@ class CoinSuggestionFragment : DaggerFragment() {
         coin_list.adapter = TopCoinPairAdapter()
         vm.getTopCoinPairs("BTC").observe(this, Observer {
             Timber.d("Top coin pairs updated, refreshing UI, %s", it)
-            (coin_list.adapter as TopCoinPairAdapter).topCoinPairs = it?.toMutableList() ?: mutableListOf()
+            (coin_list.adapter as TopCoinPairAdapter).updateCoinPairs(it?.toMutableList() ?: mutableListOf())
         })
     }
 
