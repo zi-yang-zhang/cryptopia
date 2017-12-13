@@ -3,12 +3,15 @@
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="8dp"
+                                    app:cardBackgroundColor="@color/colorPrimary">
 
 	<android.support.constraint.ConstraintLayout
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		>
 
 		<TextView
 			android:id="@+id/top_coin_pair_from"
@@ -18,10 +21,11 @@
 			android:layout_marginBottom="16dp"
 			android:layout_marginLeft="16dp"
 			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
+			android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+			android:textColor="@color/colorMainText"
+			android:textStyle="bold"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
 			tools:text="BTC"/>
 
 		<ImageView
@@ -42,61 +46,50 @@
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="16dp"
 			android:layout_marginStart="16dp"
+			android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+			android:textColor="@color/colorMainText"
+			android:textStyle="bold"
 			app:layout_constraintBottom_toBottomOf="@+id/top_coin_pair_from"
 			app:layout_constraintStart_toEndOf="@+id/imageView"
 			app:layout_constraintTop_toTopOf="@+id/top_coin_pair_from"
 			tools:text="ETM"/>
 
 		<TextView
-			android:id="@+id/at"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:layout_marginStart="16dp"
-			android:text="@string/at_symbol"
-			app:layout_constraintBottom_toBottomOf="@+id/top_coin_pair_from"
-			app:layout_constraintStart_toEndOf="@+id/top_coin_pair_to"
-			app:layout_constraintTop_toTopOf="@+id/top_coin_pair_from"/>
-
-		<TextView
 			android:id="@+id/top_coin_pair_exchange"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="8dp"
-			android:layout_marginStart="8dp"
-			app:layout_constraintBottom_toBottomOf="@+id/top_coin_pair_from"
-			app:layout_constraintStart_toEndOf="@+id/at"
-			app:layout_constraintTop_toTopOf="@+id/top_coin_pair_from"
+			android:layout_marginBottom="16dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginTop="16dp"
+			android:textAppearance="@style/TextAppearance.AppCompat.Large"
+			app:layout_constraintBottom_toTopOf="@+id/imageView"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
 			tools:text="Coinbase"/>
 
-		<FrameLayout
-			android:id="@+id/top_coin_pair_price_container"
+		<TextView
+			android:id="@+id/top_coin_pair_price"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
-			app:layout_constraintBottom_toBottomOf="@+id/top_coin_pair_from"
-			app:layout_constraintEnd_toStartOf="@+id/top_coin_pair_change_percentage"
-			app:layout_constraintStart_toEndOf="@+id/top_coin_pair_exchange"
-			app:layout_constraintTop_toTopOf="@+id/top_coin_pair_from">
-
-			<TextView
-				android:id="@+id/top_coin_pair_price"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="200 CAD"/>
-
-		</FrameLayout>
+			android:layout_marginBottom="8dp"
+			android:layout_marginEnd="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="8dp"
+			android:textAppearance="@style/TextAppearance.AppCompat.Large"
+			app:layout_constraintBottom_toTopOf="@+id/top_coin_pair_change_percentage"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="@+id/top_coin_pair_exchange"
+			tools:text="200 CAD"/>
 
 		<TextView
 			android:id="@+id/top_coin_pair_change_percentage"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
+			android:layout_marginEnd="16dp"
 			android:layout_marginRight="16dp"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintTop_toTopOf="@+id/top_coin_pair_from"
+			android:textColor="@color/colorMainText"
+			app:layout_constraintBottom_toBottomOf="@+id/top_coin_pair_from"
+			app:layout_constraintEnd_toEndOf="parent"
 			tools:text="8.6%"/>
 
 	</android.support.constraint.ConstraintLayout>

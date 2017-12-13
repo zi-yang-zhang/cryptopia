@@ -1,5 +1,6 @@
 package com.cryptopia.android.ui.suggestion
 
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class TopCoinPairAdapter : RecyclerView.Adapter<TopCoinPairView>() {
     override fun getItemCount(): Int = topCoinPairs.size
 
     fun updateCoinPairs(coinPairs: MutableList<PricePair>) {
+        coinPairs.sortByDescending { it.changePercentageOfDay }
         topCoinPairs = coinPairs
         notifyDataSetChanged()
     }
@@ -33,10 +35,12 @@ class TopCoinPairAdapter : RecyclerView.Adapter<TopCoinPairView>() {
 
 class TopCoinPairView(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindValue(pricePair: PricePair) {
-        itemView.top_coin_pair_exchange.text = pricePair.exchange
-        itemView.top_coin_pair_from.text = pricePair.fromCoinDisplay
-        itemView.top_coin_pair_to.text = pricePair.toCoinDisplay
+        itemView.top_coin_pair_exchange.text = pricePair.exchangeSymbol
+        itemView.top_coin_pair_from.text = pricePair.fromCoin
+        itemView.top_coin_pair_to.text = pricePair.toCoin
         itemView.top_coin_pair_price.text = pricePair.displayPrice
-        itemView.top_coin_pair_change_percentage.text = "%.2f".format(pricePair.changePercentageOfDay)
+        if (pricePair.changePercentageOfDay > 0) itemView.top_coin_pair_change_percentage.setTextColor(ResourcesCompat.getColor(itemView.resources, R.color.colorIncrease, null))
+        else itemView.top_coin_pair_change_percentage.setTextColor(ResourcesCompat.getColor(itemView.resources, R.color.colorDecrease, null))
+        itemView.top_coin_pair_change_percentage.text = "%.2f(%.3f)".format(pricePair.changePercentageOfDay, pricePair.changeOfDay)
     }
 }

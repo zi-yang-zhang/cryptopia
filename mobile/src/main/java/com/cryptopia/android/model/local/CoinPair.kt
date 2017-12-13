@@ -16,7 +16,7 @@ const val COIN_PAIR_TABLE: String = "coin_pair"
 data class TopCoinPair(@PrimaryKey(autoGenerate = true) val id: Int,
                        @SerializedName("exchange")
                        @Expose
-                       val exchange: String = "",
+                       val indexMarket: String = "",
                        @SerializedName("fromSymbol")
                        @Expose
                        val fromCoin: String = "",
