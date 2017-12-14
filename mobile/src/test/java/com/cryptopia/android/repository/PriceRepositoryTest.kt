@@ -2,8 +2,8 @@ package com.cryptopia.android.repository
 
 import com.cryptopia.android.di.NetworkModule
 import com.cryptopia.android.model.local.CoinPairDao
-import com.cryptopia.android.model.local.PricePair
 import com.cryptopia.android.model.local.PricePairDAO
+import com.cryptopia.android.model.local.SuggestionPricePair
 import com.cryptopia.android.model.remote.CryptoCompareCoinDetail
 import com.cryptopia.android.network.CryptoCompareAPI
 import dagger.Component
@@ -52,7 +52,7 @@ class PriceRepositoryTest {
 
     @Test
     fun testPriceRepository() {
-        val testSubscriber = TestSubscriber<List<PricePair>>()
+        val testSubscriber = TestSubscriber<List<SuggestionPricePair>>()
         priceRepository.updateCache(listOf("BTC", "ETH"), listOf("USD", "CAD"), null).subscribe(testSubscriber)
         testSubscriber.await(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()

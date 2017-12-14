@@ -9,10 +9,10 @@ import com.google.gson.annotations.SerializedName
  * Created by robertzzy on 07/12/17.
  */
 
-const val COIN_PAIR_TABLE: String = "coin_pair"
+const val TOP_COIN_PAIR_TABLE: String = "coin_pair"
 
 
-@Entity(tableName = COIN_PAIR_TABLE)
+@Entity(tableName = TOP_COIN_PAIR_TABLE)
 data class TopCoinPair(@PrimaryKey(autoGenerate = true) val id: Int,
                        @SerializedName("exchange")
                        @Expose
@@ -32,13 +32,16 @@ data class TopCoinPair(@PrimaryKey(autoGenerate = true) val id: Int,
 
 @Dao
 interface CoinPairDao {
-    @Query("SELECT * FROM $COIN_PAIR_TABLE")
+    @Query("SELECT * FROM $TOP_COIN_PAIR_TABLE")
     fun getTopCoinPairs(): LiveData<List<TopCoinPair>>
 
-    @Query("DELETE FROM $COIN_PAIR_TABLE")
+    @Query("DELETE FROM $TOP_COIN_PAIR_TABLE")
     fun clearTopCoinPairs()
 
-    @Insert
-    fun addTopCoinPairs(topCoinPairs: List<TopCoinPair>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(topCoinPairs: List<TopCoinPair>): List<Long>
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(topCoinPairs: List<TopCoinPair>): Int
 }
 

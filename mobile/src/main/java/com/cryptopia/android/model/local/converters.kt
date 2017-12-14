@@ -18,10 +18,10 @@ const val TIME_STAMP_FORMAT: String = "yyyy-MM-dd HH:mm:ss"
 class RoomConverters {
 
     @TypeConverter
-    fun stringToPricePair(text: String?): List<PricePair>? = Gson().fromJson(text ?: "")
+    fun stringToPricePair(text: String?): List<SuggestionPricePair>? = Gson().fromJson(text ?: "")
 
     @TypeConverter
-    fun pricePairToString(pricePairs: List<PricePair>?): String? = Gson().toJson(pricePairs)
+    fun pricePairToString(suggestionPricePairs: List<SuggestionPricePair>?): String? = Gson().toJson(suggestionPricePairs)
 
 
 }
