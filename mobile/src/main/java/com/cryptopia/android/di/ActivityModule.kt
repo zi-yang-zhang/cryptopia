@@ -13,7 +13,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityModule {
 
-    @ActivityScoped
     @ContributesAndroidInjector(modules = arrayOf(SuggestionModule::class))
     abstract fun suggestionActivity(): SuggestionActivity
 }

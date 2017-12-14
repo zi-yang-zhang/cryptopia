@@ -1,6 +1,9 @@
 package com.cryptopia.android.di
 
 import android.content.Context
+import com.cryptopia.android.di.configuration.ApplicationConfiguration
+import com.cryptopia.android.di.configuration.FrescoConfiguration
+import com.cryptopia.android.di.configuration.TimberConfiguration
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet

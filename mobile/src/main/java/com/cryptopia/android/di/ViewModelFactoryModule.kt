@@ -2,6 +2,8 @@ package com.cryptopia.android.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.cryptopia.android.di.vm.ViewModelBinding
+import com.cryptopia.android.di.vm.ViewModelFactory
 import com.cryptopia.android.ui.suggestion.CoinSuggestionViewModel
 import dagger.Binds
 import dagger.Module

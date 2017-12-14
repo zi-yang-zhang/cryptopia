@@ -1,4 +1,4 @@
-package com.cryptopia.android.di
+package com.cryptopia.android.di.vm
 
 import android.arch.lifecycle.ViewModel
 import dagger.MapKey

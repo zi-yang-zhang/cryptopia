@@ -1,7 +1,7 @@
 package com.cryptopia.android
 
-import com.cryptopia.android.di.ApplicationConfiguration
 import com.cryptopia.android.di.DaggerCoreComponent
+import com.cryptopia.android.di.configuration.ApplicationConfiguration
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import javax.inject.Inject

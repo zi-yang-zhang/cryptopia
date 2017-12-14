@@ -1,4 +1,4 @@
-package com.cryptopia.android.di
+package com.cryptopia.android.di.configuration
 
 import android.content.Context
 import com.cryptopia.android.BuildConfig
