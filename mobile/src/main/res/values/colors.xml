@@ -8,4 +8,5 @@
     <color name="colorMainTextInverse">#212121</color>
     <color name="colorIncrease">#4db6ac</color>
     <color name="colorDecrease">#e53935</color>
+    <color name="transparent">#00ffffff</color>
 </resources>

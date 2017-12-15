@@ -1,7 +1,6 @@
 package com.cryptopia.android.di
 
 import com.cryptopia.android.ui.suggestion.SuggestionActivity
-import com.cryptopia.android.ui.suggestion.SuggestionModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,6 +12,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityModule {
 
-    @ContributesAndroidInjector(modules = arrayOf(SuggestionModule::class))
+    @ContributesAndroidInjector
     abstract fun suggestionActivity(): SuggestionActivity
 }

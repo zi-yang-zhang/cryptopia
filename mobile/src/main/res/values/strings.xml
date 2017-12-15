@@ -4,4 +4,8 @@
 	<string name="to_label">To</string>
 	<string name="at_symbol">\@</string>
 	<string name="suggestion_title">Popular Coin pairs</string>
+	<string name="sign_up">Sign up</string>
+	<string name="log_in">Log in</string>
+
+	<string name="suggestion_app_description">Best assistant for Crypto Currency investment</string>
 </resources>
