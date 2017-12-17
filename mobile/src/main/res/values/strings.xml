@@ -8,4 +8,17 @@
 	<string name="log_in">Log in</string>
 
 	<string name="suggestion_app_description">Best assistant for Crypto Currency investment</string>
+
+	<string-array name="suggestion_coin">
+		<item>BTC</item>
+		<item>ETH</item>
+		<item>XMR</item>
+		<item>ZEC</item>
+		<item>DASH</item>
+		<item>LTC</item>
+		<item>BCH</item>
+		<item>ETC</item>
+		<item>XRP</item>
+		<item>WAVES</item>
+	</string-array>
 </resources>

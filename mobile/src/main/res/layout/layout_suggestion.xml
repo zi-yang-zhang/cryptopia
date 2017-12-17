@@ -21,10 +21,10 @@
 			android:layout_height="match_parent"
 			android:fitsSystemWindows="true"
 			app:collapsedTitleGravity="center_horizontal"
-			app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+			app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Large"
 			app:contentScrim="@color/colorPrimary"
 			app:expandedTitleGravity="center_horizontal|top"
-			app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+			app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Display1"
 			app:layout_scrollFlags="scroll|exitUntilCollapsed"
 			app:scrimAnimationDuration="100"
 			app:title="@string/app_name">
@@ -40,7 +40,6 @@
 				android:layout_height="?android:attr/actionBarSize"
 				app:contentInsetEnd="0dp"
 				app:contentInsetStart="0dp"
-				app:layout_scrollFlags="scroll|enterAlways"
 				app:titleMargin="0dp"/>
 
 		</android.support.design.widget.CollapsingToolbarLayout>
@@ -59,9 +58,9 @@
 
 			<android.support.v7.widget.AppCompatSpinner
 				android:id="@+id/suggestion_coin_selector"
-				android:layout_width="match_parent"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="16dp"
+				android:entries="@array/suggestion_coin"
 				tools:listitem=""/>
 
 			<android.support.v7.widget.RecyclerView

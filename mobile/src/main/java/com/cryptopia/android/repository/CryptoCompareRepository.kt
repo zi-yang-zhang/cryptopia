@@ -92,8 +92,7 @@ class CoinRepositoryImpl @Inject constructor(private val cryptoCompareAPI: Crypt
                 response.data.filter { defaults.contains(it.value.id) }.values.toList()
             }
 
-    override fun getTopPairs(from: String, limit: Int?): LiveData<List<SuggestionPricePair>> {
-        refreshTopCoinPairs(from, limit).subscribe()
+    override fun getTopPairs(): LiveData<List<SuggestionPricePair>> {
         return priceRepository.getTopPricePairs()
     }
 

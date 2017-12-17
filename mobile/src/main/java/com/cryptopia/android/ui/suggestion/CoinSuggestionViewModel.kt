@@ -12,7 +12,7 @@ import javax.inject.Inject
  */
 class CoinSuggestionViewModel @Inject constructor(private var coinRepository: CoinRepository) : ViewModel() {
 
-    fun getTopCoinPairs(from: String): LiveData<List<SuggestionPricePair>> = coinRepository.getTopPairs(from, null)
+    fun getTopCoinPairs(): LiveData<List<SuggestionPricePair>> = coinRepository.getTopPairs()
 
     fun refreshTopCoinPairs(from: String, limit: Int): Single<Boolean> = coinRepository.refreshTopCoinPairs(from, limit)
 

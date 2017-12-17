@@ -35,7 +35,7 @@ interface CoinRepository {
 
     fun getDefaultCoinList(): Flowable<List<CryptoCompareCoinDetail>>
 
-    fun getTopPairs(from: String, limit: Int?): LiveData<List<SuggestionPricePair>>
+    fun getTopPairs(): LiveData<List<SuggestionPricePair>>
 
     fun refreshTopCoinPairs(from: String, limit: Int?): Single<Boolean>
 
