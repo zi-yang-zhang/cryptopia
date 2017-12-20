@@ -18,7 +18,7 @@ android {
         buildConfigField 'String', 'CRYPTO_COMPARE_API', '\"https://min-api.cryptocompare.com/\"'
         buildConfigField 'String', 'CACHE_DATABASE_NAME', '\"crypto-cache\"'
         buildConfigField 'Integer', 'CACHE_DATABASE_VER', '1'
-
+        buildConfigField 'String', 'GOOGLE_OAUTH_SERVER_CLIENT_ID', '\"963603210536-qau1i4c8l9lj5hvkl09o7fvu8d045b1r.apps.googleusercontent.com\"'
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation":
@@ -48,6 +48,8 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:$architecture_lifecycle"
     kapt "android.arch.persistence.room:compiler:$architecture_lifecycle"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
+    implementation "com.google.android.gms:play-services-auth:$play_service"
+
 
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
@@ -73,3 +75,5 @@ dependencies {
 //    implementation "com.google.android.gms:play-services-wearable:$play_service_wearable"
 
 }
+
+apply plugin: 'com.google.gms.google-services'

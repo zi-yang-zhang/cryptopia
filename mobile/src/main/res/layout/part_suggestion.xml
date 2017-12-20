@@ -47,7 +47,7 @@
 		android:foreground="?android:attr/selectableItemBackground"
 		android:paddingLeft="16dp"
 		android:paddingRight="16dp"
-		android:text="@string/log_in"
+		android:text="@string/sign_in"
 		android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
 		android:textColor="@color/colorMainText"
 		app:layout_constraintBottom_toBottomOf="parent"

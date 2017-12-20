@@ -22,6 +22,10 @@
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
+
+	    <activity
+		    android:name=".ui.auth.SignInActivity"
+		    android:launchMode="singleTask"/>
     </application>
 
 </manifest>
